@@ -38,20 +38,27 @@ class AdminController extends CrudController{
     }
     
     public function  edit($entity){
-        
-        if (\Request::input('password') != null )
+        $user = Admin::query()->where(['id' => \Request::input('update')])->first();
+
+        if (\Request::input('password') == null && !empty($user))
         {
-            $new_input = array('password' => \Hash::make(\Request::input('password'))); 
-            \Request::merge($new_input);
+            $new_input = array('password' => $user->password);
+        } else {
+            $new_input = array('password' => \Hash::make(\Request::input('password')));
         }
-        
+        \Request::merge($new_input);
+
         parent::edit($entity);
 
         $this->edit = \DataEdit::source(new Admin());
 
         $this->edit->label('Edit Admin');
         $this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
-        $this->edit->add('email','Email', 'text')->rule('required|min:5');
+        if (!empty($user)) {
+            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins');
+        } else {
+            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins,email,' . $user->id);
+        }
         $this->edit->add('first_name', 'firstname', 'text');
         $this->edit->add('last_name', 'lastname', 'text');
         $this->edit->add('password', 'password', 'password')->rule('required');  
