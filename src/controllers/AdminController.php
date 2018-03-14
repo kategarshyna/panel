@@ -43,7 +43,7 @@ class AdminController extends CrudController{
         if (\Request::input('password') == null && !empty($user))
         {
             $new_input = array('password' => $user->password);
-        } else {
+        } elseif(\Request::input('password') != null) {
             $new_input = array('password' => \Hash::make(\Request::input('password')));
         }
         \Request::merge($new_input);
