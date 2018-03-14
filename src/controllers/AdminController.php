@@ -55,9 +55,9 @@ class AdminController extends CrudController{
         $this->edit->label('Edit Admin');
         $this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
         if (!empty($user)) {
-            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins');
-        } else {
             $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins,email,' . $user->id);
+        } else {
+            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins');
         }
         $this->edit->add('first_name', 'firstname', 'text');
         $this->edit->add('last_name', 'lastname', 'text');
