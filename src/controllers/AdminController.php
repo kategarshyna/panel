@@ -36,11 +36,11 @@ class AdminController extends CrudController{
         $this->addStylesToGrid();
         return $this->returnView();
     }
-    
+
     public function  edit($entity){
         $user = Admin::query()->where(['id' => \Request::input('update')])->first();
-
-        if (\Request::input('password') == null && !empty($user))
+        $new_input = array('password' => null);
+        if (\Request::input('password') == null && $user)
         {
             $new_input = array('password' => $user->password);
         } elseif(\Request::input('password') != null) {
@@ -55,16 +55,17 @@ class AdminController extends CrudController{
         $this->edit->label('Edit Admin');
         $this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
         if (!empty($user)) {
-            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins,email,' . $user->id);
+            $this->edit->add('email','Email', 'text')->rule('required|email|unique:admins,email,' . $user->id);
         } else {
-            $this->edit->add('email','Email', 'text')->rule('required|min:5|unique:admins');
+            $this->edit->add('email','Email', 'text')->rule('required|email|unique:admins');
         }
         $this->edit->add('first_name', 'firstname', 'text');
         $this->edit->add('last_name', 'lastname', 'text');
-        $this->edit->add('password', 'password', 'password')->rule('required');  
+        $this->edit->add('password', 'password', 'password')->rule('required');
         $this->edit->add('roles','Roles','checkboxgroup')->options(Role::pluck('name', 'id')->all());
 
         return $this->returnEditView();
     }
+
 
 }
