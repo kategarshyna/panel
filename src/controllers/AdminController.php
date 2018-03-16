@@ -53,7 +53,7 @@ class AdminController extends CrudController{
         $this->edit = \DataEdit::source(new Admin());
 
         $this->edit->label('Edit Admin');
-        $this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
+        //$this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
         if (!empty($user)) {
             $this->edit->add('email','Email', 'text')->rule('required|email|unique:admins,email,' . $user->id);
         } else {

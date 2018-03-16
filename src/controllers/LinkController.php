@@ -45,7 +45,7 @@ class LinkController extends CrudController {
         $helpMessage = \Lang::get('panel::fields.links_help');
 
         $this->edit->label('Edit Links');
-        $this->edit->link("rapyd-demo/filter", "Articles", "TR")->back();
+        //$this->edit->link("rapyd-demo/filter", "Articles", "TR")->back();
         $this->edit->add('display', 'Display', 'text')->rule('required');
         $this->edit->add('url', 'link', 'text')->rule('required');
         $this->edit->add('show_menu','Show in Menu','checkbox');

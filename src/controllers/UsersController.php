@@ -41,7 +41,7 @@ class UsersController extends Controller{
         
         $this->edit->label('Edit User');
         $this->edit->link("rapyd-demo/filter","Articles", "TR")->back();
-        $this->edit->add('name','Name', 'text')->rule('required|min:5');
+        //$this->edit->add('name','Name', 'text')->rule('required|min:5');
         $this->edit->add('username','userame', 'text')->rule('required|min:5');
         return $this->returnEditView();
     }
